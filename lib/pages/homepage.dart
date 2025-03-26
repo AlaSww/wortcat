@@ -64,12 +64,7 @@ class Homepage extends StatelessWidget {
                 ElevatedButton(
                   onPressed: () {
                     if(Hive.box("wortchatz").isNotEmpty){
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return Playdialog();
-                          },
-                        );
+                      Navigator.of(context).pushNamed('add');
                     }
                   },
                   child: Text('PLAY',style: TextStyle(color: Color.fromARGB(255, 0, 23, 44),fontSize: 20),),

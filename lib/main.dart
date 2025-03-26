@@ -3,6 +3,8 @@ import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:wortcat/pages/homepage.dart';
 import 'package:wortcat/pages/listpage.dart';
+import 'package:wortcat/util/adddialog.dart';
+import 'package:wortcat/util/playdialog.dart';
 
 void main()async {
   await Hive.initFlutter();
@@ -20,6 +22,7 @@ class MyApp extends StatelessWidget {
       home:Homepage(),
       routes: {
         'home':(context)=>Listpage(),
+        'add':(context)=>Playdialog()
       },
     );
   }

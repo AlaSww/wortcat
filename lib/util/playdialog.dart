@@ -59,16 +59,25 @@ class _PlaydialogState extends State<Playdialog> {
                     ),
                     SizedBox(height: 20,),
                     Container(
+<<<<<<< HEAD
                       padding: EdgeInsets.only(left: 5),
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 255, 180, 67),
                         borderRadius: BorderRadius.circular(15),
+=======
+                      decoration: BoxDecoration(
+                        color: Color.fromARGB(255, 255, 180, 67),
+                        borderRadius: BorderRadius.circular(15)
+>>>>>>> abf4efb7d58f6165b713a8a35788f01d50c2d430
                       ),
                       width: screenwidth*0.8,
                       child: TextField(
                         controller: input,
                         decoration: InputDecoration(
+<<<<<<< HEAD
                           border: InputBorder.none,
+=======
+>>>>>>> abf4efb7d58f6165b713a8a35788f01d50c2d430
                           labelText: '   translation',
                           hintText: '    Enter the translation',
                         ),

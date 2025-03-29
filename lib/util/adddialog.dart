@@ -9,24 +9,60 @@ class AddDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double screenwidth=MediaQuery.of(context).size.width;
+    double screenheight=MediaQuery.of(context).size.height;
     return AlertDialog(
       backgroundColor: Color.fromARGB(255, 226, 178, 106),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          TextField(
-            controller: wordController,
-            decoration: InputDecoration(
-              labelText: 'Word',
-              hintText: 'Enter the word',
+          Center(
+            child: Text(
+              "NEW WORD",
+              style: TextStyle(
+                fontSize: screenwidth*0.06,
+                fontWeight: FontWeight.bold,
+              ),
+              ),
+          ),
+          SizedBox(height: 20,),
+          Container(
+            width: screenwidth*0.7,
+            padding:EdgeInsets.only(left: 10),
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 255, 174, 52),
+              borderRadius: BorderRadius.circular(10)
+            ),
+            child: TextField(
+              controller: wordController,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                labelText: 'Word',
+                labelStyle: TextStyle(
+                  color: Colors.black
+                ),
+                hintText: 'Enter the word',
+              ),
             ),
           ),
           SizedBox(height: 10),
-          TextField(
-            controller: translationController,
-            decoration: InputDecoration(
-              labelText: 'Translation',
-              hintText: 'Enter the translation',
+          Container(
+            width: screenwidth*0.7,
+            padding:EdgeInsets.only(left: 10),
+            decoration: BoxDecoration(
+              color: Color.fromARGB(255, 255, 174, 52),
+              borderRadius: BorderRadius.circular(10)
+            ),
+            child: TextField(
+              controller: translationController,
+              decoration: InputDecoration(
+                border: InputBorder.none,
+                labelText: 'Translation',
+                labelStyle: TextStyle(
+                  color: Colors.black
+                ),
+                hintText: 'Enter the translation',
+              ),
             ),
           ),
         ],
@@ -39,6 +75,9 @@ class AddDialog extends StatelessWidget {
           child: Text('Cancel',style: TextStyle(color: const Color.fromARGB(255, 75, 75, 75)),),
         ),
         ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Color.fromARGB(255, 255, 174, 52),
+          ),
           onPressed: () {
             if( wordController.text!="" && translationController.text!=""){
               words.put(wordController.text, translationController.text);

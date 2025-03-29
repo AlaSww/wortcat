@@ -38,6 +38,7 @@ class Homepage extends StatelessWidget {
                   onPressed: () {
                     showDialog(
                         context: context,
+                        barrierDismissible: false,
                         builder: (BuildContext context) {
                           return AddDialog();
                         },

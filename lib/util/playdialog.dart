@@ -1,7 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:hive/hive.dart';
+import 'dart:convert';
+
+
 
 class Playdialog extends StatefulWidget {
   const Playdialog({super.key});
@@ -29,11 +33,15 @@ class _PlaydialogState extends State<Playdialog> {
   }
   @override
   Widget build(BuildContext context) {
-    final screenwidth=MediaQuery.of(context).size.width;
+    double screenwidth=MediaQuery.of(context).size.width;
+    double screenheight=MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Color(0xFFFFD89C),
-      appBar: AppBar(backgroundColor: Color.fromARGB(255, 255, 180, 67),),
-      body: Expanded(
+      appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 255, 180, 67),
+        title: Center(child: Text("WORTCAT"),),
+        ),
+      body: SingleChildScrollView(
         child: Container(
           padding: EdgeInsets.only(top: 20),
           child: Center(
@@ -42,9 +50,9 @@ class _PlaydialogState extends State<Playdialog> {
                   Text(
                   correctanswers.toString()+"/"+worts.length.toString(),
                   style: TextStyle(
-                    fontSize: 20,
+                    fontSize: screenwidth*0.065,
                     fontWeight: FontWeight.bold,
-                    color: Colors.deepPurple
+                    color: const Color.fromARGB(255, 18, 151, 0)
                   ),
                 ),
                   Text(
@@ -52,132 +60,140 @@ class _PlaydialogState extends State<Playdialog> {
                         ? ' ${words.get(worts[i])}'
                         : ' ${worts[i]}',
                     style: TextStyle(
-                      fontSize: 42,
+                      fontSize: screenwidth*0.12,
                       color:!showTranslation ? const Color.fromARGB(255, 0, 10, 56):Colors.red,
                       fontWeight: FontWeight.bold,
                     ),
                     ),
-                    SizedBox(height: 20,),
+                    SizedBox(height: screenheight*0.04,),
                     Container(
-<<<<<<< HEAD
                       padding: EdgeInsets.only(left: 5),
                       decoration: BoxDecoration(
                         color: Color.fromARGB(255, 255, 180, 67),
                         borderRadius: BorderRadius.circular(15),
-=======
-                      decoration: BoxDecoration(
-                        color: Color.fromARGB(255, 255, 180, 67),
-                        borderRadius: BorderRadius.circular(15)
->>>>>>> abf4efb7d58f6165b713a8a35788f01d50c2d430
                       ),
                       width: screenwidth*0.8,
+                      height: screenwidth*0.12,
                       child: TextField(
                         controller: input,
                         decoration: InputDecoration(
-<<<<<<< HEAD
                           border: InputBorder.none,
-=======
->>>>>>> abf4efb7d58f6165b713a8a35788f01d50c2d430
                           labelText: '   translation',
                           hintText: '    Enter the translation',
                         ),
                       ),
                     ),
-                    SizedBox(height: 30,),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 255, 180, 67)
-                      ),
-                      onPressed: (){
-                        String userTranslation = input.text.trim();
-                        String correctTranslation = words.get(worts[i]) as String;
-                        if (userTranslation == correctTranslation) {
-                          if (i < worts.length - 1) {
+                    SizedBox(height: screenheight*0.04,),
+                    SizedBox(
+                      width: screenwidth*0.3,
+                      height: screenwidth*0.1,
+                      child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Color.fromARGB(255, 255, 180, 67)
+                        ),
+                        onPressed: (){
+                          String userTranslation = input.text.trim();
+                          String correctTranslation = words.get(worts[i]) as String;
+                          if (userTranslation == correctTranslation) {
+                            if (i < worts.length - 1) {
+                              setState(() {
+                                i++;
+                                input.clear();
+                                showTranslation = false; 
+                              });
+                            } else {
+                              Navigator.of(context).pop();
+                              showDialog(
+                                context: context, 
+                                builder: (context){
+                                  return AlertDialog(
+                                    backgroundColor: Color(0xFFFFD89C),
+                                    title: Center(
+                                      child: Text(
+                                        "you have got ${(worts.length-correctanswers).toString()} wrong words",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        ),
+                                    ),
+                                      content: IconButton.filled(
+                                        onPressed: Navigator.of(context).pop, 
+                                        icon: Icon(Icons.done),
+                                        style: IconButton.styleFrom(
+                                          backgroundColor: Color.fromARGB(255, 255, 180, 67),
+                                          foregroundColor: Colors.white, 
+                                        ),
+                                        ),
+                                  );
+                                }
+                                
+                                );
+                            }
                             setState(() {
-                              i++;
-                              input.clear();
-                              showTranslation = false; 
+                              correctanswers++;
                             });
                           } else {
-                            Navigator.of(context).pop();
-                            showDialog(
-                              context: context, 
-                              builder: (context){
-                                return AlertDialog(
-                                  backgroundColor: Color(0xFFFFD89C),
-                                  title: Center(
-                                    child: Text(
-                                      "you have got ${(worts.length-correctanswers).toString()} wrong words",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      ),
-                                  ),
-                                    content: IconButton.filled(
-                                      onPressed: Navigator.of(context).pop, 
-                                      icon: Icon(Icons.done),
-                                      style: IconButton.styleFrom(
-                                        backgroundColor: Color.fromARGB(255, 255, 180, 67),
-                                        foregroundColor: Colors.white, 
-                                      ),
-                                      ),
+                            if(showTranslation==true){
+                              if(i<worts.length-1){
+                              setState(() {
+                                i++;
+                                input.clear();
+                                showTranslation = false; 
+                              });
+                              }
+                              else{
+                                Navigator.of(context).pop();
+                              showDialog(
+                                context: context, 
+                                builder: (context){
+                                  return AlertDialog(
+                                    backgroundColor: Color(0xFFFFD89C),
+                                    title: Center(
+                                      child: Text(
+                                        "you have got ${(worts.length-correctanswers).toString()} wrong words",
+                                        style: TextStyle(
+                                          fontSize: screenwidth*0.05,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                        ),
+                                    ),
+                                      content: IconButton.filled(
+                                        onPressed: Navigator.of(context).pop, 
+                                        icon: Icon(Icons.done),
+                                        style: IconButton.styleFrom(
+                                          backgroundColor:  Color.fromARGB(255, 255, 180, 67),
+                                          foregroundColor: Colors.white, 
+                                        ),
+                                        ),
+                                  );
+                                }
+                                
                                 );
                               }
-                              
-                              );
-                          }
-                          setState(() {
-                            correctanswers++;
-                          });
-                        } else {
-                          if(showTranslation==true){
-                            if(i<worts.length-1){
-                            setState(() {
-                              i++;
-                              input.clear();
-                              showTranslation = false; 
-                            });
                             }
                             else{
-                              Navigator.of(context).pop();
-                            showDialog(
-                              context: context, 
-                              builder: (context){
-                                return AlertDialog(
-                                  backgroundColor: Color(0xFFFFD89C),
-                                  title: Center(
-                                    child: Text(
-                                      "you have got ${(worts.length-correctanswers).toString()} wrong words",
-                                      style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                      ),
-                                  ),
-                                    content: IconButton.filled(
-                                      onPressed: Navigator.of(context).pop, 
-                                      icon: Icon(Icons.done),
-                                      style: IconButton.styleFrom(
-                                        backgroundColor: Color.fromARGB(255, 255, 180, 67),
-                                        foregroundColor: Colors.white, 
-                                      ),
-                                      ),
-                                );
-                              }
-                              
-                              );
+                            setState(() {
+                              showTranslation = true;
+                            });
                             }
                           }
-                          else{
-                          setState(() {
-                            showTranslation = true;
-                          });
-                          }
-                        }
-                      }, 
-                      child: Text("submit",style: TextStyle(fontSize: 20),),
-                      ),
+                        }, 
+                        child: Text(
+                          "NEXT",
+                          style: TextStyle(
+                            fontSize: screenwidth*0.05,
+                            color: const Color.fromARGB(255, 26, 26, 26),
+
+                            ),
+                            ),
+                        ),
+                    ),
+
+                 Image.asset(
+                  'assets/bird.gif',
+                  width: screenwidth,
+                  )
                 ],
               ),
             ),

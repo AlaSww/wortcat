@@ -1,24 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:wortcat/util/adddialog.dart';
-import 'package:wortcat/util/drawer.dart';
 import 'package:wortcat/util/playdialog.dart';
 
-class Homepage extends StatelessWidget {
+class Homepage extends StatefulWidget {
   const Homepage({super.key});
 
+  @override
+  State<Homepage> createState() => _HomepageState();
+}
+
+class _HomepageState extends State<Homepage> {
+  final words=Hive.box('wortchatz');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFFFFD89C),
-      appBar: AppBar(
-        backgroundColor: Color.fromARGB(255, 255, 180, 67),
-      ),
-      drawer: Drawer(
-        backgroundColor: Color.fromARGB(255, 255, 180, 67),
-        child: Drawerr(),
-      ),
-      bottomNavigationBar: BottomAppBar(color:Color(0xFFFFD89C) ,),
       body: Center(
         child: Container(
           alignment: Alignment.center,

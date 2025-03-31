@@ -19,7 +19,6 @@ class _ListpageState extends State<Listpage> {
   Widget build(BuildContext context) {
     final Box<dynamic> wortchatz = Hive.box<dynamic>('wortchatz'); 
 
-    // Filter the keys based on the search query
     List<String> filteredKeys = wortchatz.keys
         .cast<String>()
         .where((key) => key.toLowerCase().contains(searchQuery.toLowerCase()))
@@ -31,12 +30,24 @@ class _ListpageState extends State<Listpage> {
         backgroundColor: Color.fromARGB(255, 240, 178, 85),
         title: Center(child: Text('WORS LIST')),
         actions: [
-          Icon(Icons.wordpress,color: Colors.black,)
+          IconButton(
+            onPressed: (){
+              showDialog(
+                context: context, 
+                builder: (BuildContext context){
+                  return AlertDialog(
+                    backgroundColor: Color.fromARGB(255, 240, 178, 85),
+                    title: Text('Total words: ${wortchatz.length}'),
+                  );
+                }
+              );
+            },
+            icon: Icon(Icons.info)
+          )
         ],
       ),
       body: Column(
         children: [
-          // Search TextField
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: TextField(
@@ -66,7 +77,7 @@ class _ListpageState extends State<Listpage> {
               },
             ),
           ),
-          // List of Words
+
           Expanded(
             child: ValueListenableBuilder(
               valueListenable: wortchatz.listenable(),

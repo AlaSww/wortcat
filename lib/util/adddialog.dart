@@ -9,6 +9,7 @@ class AddDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Box<dynamic> settings = Hive.box<dynamic>('settings');
     double screenwidth=MediaQuery.of(context).size.width;
     double screenheight=MediaQuery.of(context).size.height;
     return AlertDialog(

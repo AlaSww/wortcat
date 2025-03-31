@@ -5,10 +5,10 @@ import 'package:wortcat/pages/homepage.dart';
 import 'package:wortcat/pages/listpage.dart';
 import 'package:wortcat/util/adddialog.dart';
 import 'package:wortcat/util/playdialog.dart';
-
 void main()async {
   await Hive.initFlutter();
-  var box=Hive.openBox('wortchatz');
+  var box=await Hive.openBox('wortchatz');
+  var settings=await Hive.openBox('settings');
   runApp(const MyApp());
 }
 
